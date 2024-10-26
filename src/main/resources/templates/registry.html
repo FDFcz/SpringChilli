@@ -1,0 +1,35 @@
+﻿<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Debug View</title>
+    <link rel="icon" href="static/images/chiliLogo.jpg" type="image/icon">
+    <link href="css/Chilli.css" rel="Stylesheet">
+</head>
+<body>
+<main>
+    <h4>Registry your account</h4>
+    <div class="container2">
+<form method="post">
+    <label for="user name">Uživatelské jméno:</label>
+    <input type="text" id="user name" name="username" required><br><br>
+    <label for="email">email:</label>
+    <input type="text" id="email" name="email" required><br><br>
+    <label for="tel">telefon:</label>
+    <input type="text" id="tel" name="tel" required><br><br>
+    <label for="password">Password:</label>
+    <input type="text" id="password" name="password" required><br><br>
+    <label for="password2">Password*:</label>
+    <input type="text" id="password2" name="password2" required><br><br>
+    <input type="submit" value="Odeslat">
+</form>
+    <%
+        String currentUser = request.getParameter("username");
+        if(currentUser !=null){
+    %> <p style="color:red;";>User not added.<p> <%
+        }
+    %>
+    </div>
+    <br>
+    <img src="static/images/Chily.png">
+</main>
+</body>

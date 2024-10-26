@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Order a teracota</title>
+    <link rel="icon" href="images/chiliLogo.jpg" type="image/icon">
+    <link href="css/Chilli.css" rel="Stylesheet">
+</head>
+<body>
+<main>
+    <h4>Select teracota</h4>
+    <form method="post" th:action="@{/newTeracota}">
+        <label for="name">Jméno květináče:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="plantType">Vyber odrůdu:</label>
+        <select name="plantType" id="plantType">
+            <option th:each="plantType : ${T(com.example.Structures.Teracota.PlantTypes).values()}"
+                    th:value="${plantType}" th:text="${plantType}">
+            </option>
+        </select>
+        <br><br>
+        <input type="hidden" name="id" th:value="${id}">
+        <input type="submit" value="Objednej">
+    </form>
+    <br>
+    <img src="images/Chily.png}" alt="Chily image">
+</main>
+</body>
+</html>

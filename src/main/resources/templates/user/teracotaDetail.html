@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="cs-cz" dir="ltr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title th:text="'Tvůj květináč: ' + ${currentTeracota.name}">Tvůj květináč</title>
+    <link rel="icon" href="images/chiliLogo.jpg" type="image/icon">
+    <link href="css/Chilli.css" rel="Stylesheet">
+    <script type="text/javascript" src="js/sliderUpdater.js"></script>
+</head>
+<body>
+
+<span class="dayToGrow" th:text="${currentTeracota.plant.growDays}"></span>
+<main>
+    <h1>Květináč <span th:text="${currentTeracota.name}"></span></h1>
+    <p>
+        days to grow: <span class="dayLeft" th:text="${currentTeracota.plantedAt}"></span><br>
+        temperature: <span th:text="${currentTeracota.actualTemp}"></span>&#176;C<br>
+        humidity: <span th:text="${currentTeracota.actualHumidity}"></span>%<br>
+        light: <span th:text="${currentTeracota.actuallight} ? 'ON' : 'OFF'"></span>
+    </p>
+    <a th:href="@{teracotaGallery(id=${userID}, teracota=${currentTeracota.id})}">Gallery</a>
+    <hr>
+
+    <form class="container" method="post">
+        <h5>Nastavení rozvrhů</h5>
+        <div th:each="cron, iterStat : ${crons}">
+            <h6>Rozvrh <span th:text="${iterStat.index}"></span></h6>
+            <div class="container2">
+                <input type="hidden" name="cronID" th:value="${cron.id}">
+                <input type="hidden" name="schedlID" th:value="${cron.schedule.id}">
+
+                <label for="start">Od kdy:</label>
+                <select name="start" id="start">
+                    <option th:each="hour : ${#numbers.sequence(0, 23)}"
+                            th:value="${hour}"
+                            th:text="${hour}"
+                            th:selected="${hour == cron.startTime}"></option>
+                </select>
+
+                <label for="temp">Teplota:</label>
+                <input type="range" name="temp" id="temp" min="10" max="40" step="0.5"
+                       th:value="${cron.schedule.temperature}"
+                       oninput="updateTempSlider('tempValue${iterStat.index}', this.value)" />
+                <span id="tempValue${iterStat.index}" th:text="${cron.schedule.temperature}"></span>&#176;C
+
+                <label for="humidity">Zalití:</label>
+                <input type="range" name="humidity" id="humidity" min="20" max="80" step="5"
+                       th:value="${cron.schedule.humidity}"
+                       oninput="updateHumiSlider('humidityValue${iterStat.index}', this.value)" />
+                <span id="humidityValue${iterStat.index}" th:text="${cron.schedule.humidity}"></span>%
+
+                <label for="light">Světlo:</label>
+                <input type="range" name="light" id="light" min="0" max="1" step="1"
+                       th:value="${cron.schedule.light ? 1 : 0}"
+                       oninput="updateLightSlider('LightValue${iterStat.index}', this.value)" />
+                <span id="LightValue${iterStat.index}" th:text="${cron.schedule.light ? 'O' : 'X'}"></span>
+
+                <label for="end">Do kdy:</label>
+                <select name="end" id="end">
+                    <option th:each="hour : ${#numbers.sequence(0, 23)}"
+                            th:value="${hour}"
+                            th:text="${hour}"
+                            th:selected="${hour == cron.endTime}"></option>
+                </select>
+
+                <a th:href="@{ChangeCronNumber(id=${userID}, teracota=${currentTeracota.id}, cronID=${cron.id}, method='Delete')}">X</a>
+            </div>
+        </div>
+
+        <a th:href="@{ChangeCronNumber(id=${userID}, teracota=${currentTeracota.id}, cronID=-1, method='Post')}">Přidej časové období</a>
+        <br><br>
+        <input type="submit" value="Ulož">
+    </form>
+
+    <hr>
+    <footer>
+        <a th:href="@{teracotaDetail(id=${userID}, teracota=${currentTeracota.id}, method='Delete')}">Odeslání Květináče</a>
+    </footer>
+</main>
+
+<script type="text/javascript" src="js/teracotaDetailUI.js"></script>
+</body>
+</html>

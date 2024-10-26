@@ -1,0 +1,30 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Chillipepers login</title>
+    <link rel="icon" href="images/chiliLogo.jpg" type="image/icon">
+    <link href="css/Chilli.css" rel="Stylesheet">
+</head>
+<body>
+<main>
+    <div>
+        <form method="post" th:action="@{/login}">
+            <h4>login</h4>
+            <label for="username">Uživatelské jméno:</label>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Heslo:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <input type="submit" value="Přihlásit">
+
+            <!-- Zobrazení chybové zprávy v případě špatných údajů -->
+            <p th:if="${ERROR}" style="color:red;">Zadali jste špatné údaje.</p>
+        </form>
+
+        Nebo se zaregistruj <a th:href="@{/registry}">zde</a>.
+    </div>
+    <br>
+    <img src="images/Chily.png" alt="chilli logo">
+</main>
+</body>
